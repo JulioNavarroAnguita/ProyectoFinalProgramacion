@@ -11,6 +11,25 @@ import java.util.List;
 public class PeliculaDAOImp implements PeliculaDAO {
 
 	private static Connection conexion = Conexion.getConexion();
+	private String[] header = {"codigo", "pelicula", "director", "genero"};
+	private String[][] pintarTablas;
+	
+	
+	public String[] getHeader() {
+		return header;
+	}
+
+	public void setHeader(String[] header) {
+		this.header = header;
+	}
+
+	public String[][] getPintarTablas() {
+		return pintarTablas;
+	}
+
+	public void setPintarTablas(String[][] pintarTablas) {
+		this.pintarTablas = pintarTablas;
+	}
 
 	@Override
 	public List<PeliculaDTO> listarPeliculas() {
@@ -22,10 +41,10 @@ public class PeliculaDAOImp implements PeliculaDAO {
 				ResultSet rst = st.executeQuery(sql);){
 
 			while(rst.next()) {
-				PeliculaDTO peliculaDTO = new PeliculaDTO(rst.getString(0),
-						rst.getString(1),
+				PeliculaDTO peliculaDTO = new PeliculaDTO(rst.getString(1),
 						rst.getString(2),
-						rst.getString(3));
+						rst.getString(3),
+						rst.getString(4));
 				listaPeliculas.add(peliculaDTO);
 			}
 
@@ -117,7 +136,9 @@ public class PeliculaDAOImp implements PeliculaDAO {
 				contador++;
 			//	pst.executeUpdate();*/
 				insertarPelicula(peliculaDTO);
+				
 				System.out.println("Peliculas insertada: " + contador);
+
 			}
 
 
@@ -145,7 +166,8 @@ public class PeliculaDAOImp implements PeliculaDAO {
 			pst.setString(3, pelicula.getDirector());
 			pst.setString(4, pelicula.getGenero());
 
-			peliculaInsert += pst.executeUpdate();
+			peliculaInsert++;
+			pst.executeUpdate();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -212,7 +234,7 @@ public class PeliculaDAOImp implements PeliculaDAO {
 
 		String sql = "DROP TABLE IF EXISTS pelicula;";
 		String sql1 = "CREATE TABLE pelicula (codigo TEXT PRIMARY KEY, "
-				+ "pelicula TEXT(50), director TEXT(50), genero TEXT(50));";
+				+ "pelicula TEXT, director TEXT, genero TEXT);";
 
 		try (Statement st = conexion.createStatement();){
 			st.executeUpdate(sql);
