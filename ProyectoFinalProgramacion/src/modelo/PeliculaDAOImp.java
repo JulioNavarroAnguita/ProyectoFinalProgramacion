@@ -130,4 +130,80 @@ public class PeliculaDAOImp implements PeliculaDAO {
 		return insertado;
 	}
 
+	@Override
+	public boolean insertarPelicula(PeliculaDTO pelicula) {
+	
+		boolean insert = false;
+		int peliculaInsert = 0;
+		String sql = "INSERT INTO pelicula (codigo, pelicula, director, genero) VALUES (?,?,?,?);";
+		
+		try (PreparedStatement pst = conexion.prepareStatement(sql);){
+			
+			pst.setString(1, pelicula.getCodigo());
+			pst.setString(2, pelicula.getPelicula());
+			pst.setString(3, pelicula.getDirector());
+			pst.setString(4, pelicula.getGenero());
+			
+			peliculaInsert += pst.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if(peliculaInsert > 0)
+			insert = true;
+		
+		return insert;
+	}
+
+	@Override
+	public boolean actualizarPellicula(PeliculaDTO pelicula) {
+		
+		boolean update = false;
+		int peliculaUpdate = 0;
+		String sql = "UPDATE pelicula SET pelicula = ?, director = ?, genero = ? WHERE codigo = ?);";
+		
+		try (PreparedStatement pst = conexion.prepareStatement(sql);){
+			pst.setString(1, pelicula.getPelicula());
+			pst.setString(2, pelicula.getDirector());
+			pst.setString(3, pelicula.getGenero());
+			pst.setString(4, pelicula.getCodigo());
+			
+			peliculaUpdate += pst.executeUpdate(); 
+	
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if(peliculaUpdate > 0)
+			update = true;
+		
+		return update;
+	}
+
+	@Override
+	public boolean borrarPelicula(PeliculaDTO pelicula) {
+
+		int peliculaDelete = 0;
+		boolean delete = false;
+		String sql = "DELETE from pelicula WHERE codigo = ?;";
+		
+		try (PreparedStatement pst = conexion.prepareStatement(sql);){
+			pst.setString(1, pelicula.getCodigo());
+			
+			peliculaDelete += pst.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if(peliculaDelete > 0)
+			delete = true;
+		
+		return delete;
+	}
+
 }

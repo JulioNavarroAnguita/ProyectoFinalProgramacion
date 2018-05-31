@@ -62,8 +62,8 @@ public class Conexion {
 	}
 	
 	//Comprobando la conexion
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		Connection conexion = Conexion.getConexion();
 		System.out.println(conexion);
-	}
+	}*/
 }
