@@ -38,6 +38,8 @@ public class Conexion {
 		if(conexion == null) {
 			new Conexion();
 			Runtime.getRuntime().addShutdownHook(new ShutdownHook());
+
+			
 		}
 
 		return conexion;

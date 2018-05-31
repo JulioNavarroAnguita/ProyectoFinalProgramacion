@@ -10,7 +10,7 @@ import java.util.List;
 
 public class PeliculaDAOImp implements PeliculaDAO {
 
-	Connection conexion = Conexion.getConexion();
+	private static Connection conexion = Conexion.getConexion();
 
 	@Override
 	public List<PeliculaDTO> listarPeliculas() {
@@ -28,7 +28,7 @@ public class PeliculaDAOImp implements PeliculaDAO {
 						rst.getString(3));
 				listaPeliculas.add(peliculaDTO);
 			}
-			
+
 			System.out.println("Total de peliculas: " + listaPeliculas.size());
 
 		} catch (SQLException | ExceptionPelicula e) {
@@ -59,42 +59,42 @@ public class PeliculaDAOImp implements PeliculaDAO {
 			System.out.println("Peliculas borradas: " + peliculasBorradas);
 			if(peliculasBorradas > 0)
 				borrado = true;
-			
+
 		} catch (SQLException e) {
 			System.out.println("Error al intentar borrar una pelicula/DAOImp");
 		}
-		
+
 		return borrado;
 	}
 
 
 	@Override
 	public boolean actualizarPeliculas(List<PeliculaDTO> listaPeliculas) {
-		
+
 		boolean actualizado = false;
 		int peliculasActualizadas = 0;
 		String sql = "UPDATE pelicula SET pelicula = ?, director = ?, genero = ? WHERE codigo = ?;";
-		
+
 		try (PreparedStatement pst = conexion.prepareStatement(sql);){
-			
+
 			for (PeliculaDTO peliculaDTO : listaPeliculas) {
 				pst.setString(1, peliculaDTO.getPelicula());
 				pst.setString(2, peliculaDTO.getDirector());
 				pst.setString(3, peliculaDTO.getGenero());
 				pst.setString(4, peliculaDTO.getCodigo());
-				
+
 				peliculasActualizadas += pst.executeUpdate();
 			}
-			
+
 			System.out.println("Peliculas actualizadas: " + peliculasActualizadas);
 			if(peliculasActualizadas > 0)
 				actualizado = true;
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return actualizado;
 	}
 
@@ -104,23 +104,24 @@ public class PeliculaDAOImp implements PeliculaDAO {
 		boolean insertado = false;
 		int peliculasInsertadas = 0; 
 
-		String sql = "INSERT INTO pelicula (codigo, pelicula, director, genero VALUES (?,?,?,?,?,?);";
+		String sql = "INSERT INTO pelicula (codigo, pelicula, director, genero) VALUES (?,?,?,?);";
 
 
 		try (PreparedStatement pst = conexion.prepareStatement(sql);){
-
+			int contador = 0;
 			for (PeliculaDTO peliculaDTO : listaPeliculas) {
-				pst.setString(1, peliculaDTO.getCodigo());
+				/*pst.setString(1, peliculaDTO.getCodigo());
 				pst.setString(2, peliculaDTO.getPelicula());
 				pst.setString(3, peliculaDTO.getDirector());
-				pst.setString(4, peliculaDTO.getGenero());
-
-				peliculasInsertadas += pst.executeUpdate();
+				pst.setString(4, peliculaDTO.getGenero());*/
+				contador++;
+			//	pst.executeUpdate();*/
+				insertarPelicula(peliculaDTO);
+				System.out.println("Peliculas insertada: " + contador);
 			}
 
-			if (peliculasInsertadas > 0) 
-				insertado = true;
-			System.out.println("Peliculas insertadas: " + peliculasInsertadas);
+
+
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -132,54 +133,54 @@ public class PeliculaDAOImp implements PeliculaDAO {
 
 	@Override
 	public boolean insertarPelicula(PeliculaDTO pelicula) {
-	
+
 		boolean insert = false;
 		int peliculaInsert = 0;
 		String sql = "INSERT INTO pelicula (codigo, pelicula, director, genero) VALUES (?,?,?,?);";
-		
+
 		try (PreparedStatement pst = conexion.prepareStatement(sql);){
-			
+
 			pst.setString(1, pelicula.getCodigo());
 			pst.setString(2, pelicula.getPelicula());
 			pst.setString(3, pelicula.getDirector());
 			pst.setString(4, pelicula.getGenero());
-			
+
 			peliculaInsert += pst.executeUpdate();
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		if(peliculaInsert > 0)
 			insert = true;
-		
+
 		return insert;
 	}
 
 	@Override
 	public boolean actualizarPellicula(PeliculaDTO pelicula) {
-		
+
 		boolean update = false;
 		int peliculaUpdate = 0;
 		String sql = "UPDATE pelicula SET pelicula = ?, director = ?, genero = ? WHERE codigo = ?);";
-		
+
 		try (PreparedStatement pst = conexion.prepareStatement(sql);){
 			pst.setString(1, pelicula.getPelicula());
 			pst.setString(2, pelicula.getDirector());
 			pst.setString(3, pelicula.getGenero());
 			pst.setString(4, pelicula.getCodigo());
-			
+
 			peliculaUpdate += pst.executeUpdate(); 
-	
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		if(peliculaUpdate > 0)
 			update = true;
-		
+
 		return update;
 	}
 
@@ -189,21 +190,46 @@ public class PeliculaDAOImp implements PeliculaDAO {
 		int peliculaDelete = 0;
 		boolean delete = false;
 		String sql = "DELETE from pelicula WHERE codigo = ?;";
-		
+
 		try (PreparedStatement pst = conexion.prepareStatement(sql);){
 			pst.setString(1, pelicula.getCodigo());
-			
+
 			peliculaDelete += pst.executeUpdate();
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		if(peliculaDelete > 0)
 			delete = true;
-		
+
 		return delete;
 	}
+
+	@Override
+	public void crearTabla() {
+
+		String sql = "DROP TABLE IF EXISTS pelicula;";
+		String sql1 = "CREATE TABLE pelicula (codigo TEXT PRIMARY KEY, "
+				+ "pelicula TEXT(50), director TEXT(50), genero TEXT(50));";
+
+		try (Statement st = conexion.createStatement();){
+			st.executeUpdate(sql);
+			st.executeUpdate(sql1);
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	@Override
+	public boolean comprobarExisteTabla() {
+		
+		return false;
+	}
+
 
 }

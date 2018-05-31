@@ -12,16 +12,12 @@ public class LeerCSV {
 	private static List<PeliculaDTO> listaPeliculas = new ArrayList<>();
 
 
-	public List<PeliculaDTO> getListaPeliculas() {
-		return listaPeliculas;
-	}
-
 	public LeerCSV(String fichero) {
 		cargarDatosFichero(fichero);
 	}
 
 	//metodo para cargar datos pasandole como argumento un fichero
-	public void cargarDatosFichero(String fichero) {
+	public static List<PeliculaDTO> cargarDatosFichero(String fichero) {
 
 		//Utilizando la clase externa CSVReader
 
@@ -39,8 +35,8 @@ public class LeerCSV {
 		} catch (IOException | ExceptionPelicula e) {
 
 		}
-
-
+	
+		return listaPeliculas;
 	}
 }
 
