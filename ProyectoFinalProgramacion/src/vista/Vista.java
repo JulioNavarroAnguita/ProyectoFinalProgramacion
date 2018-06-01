@@ -20,7 +20,16 @@ public class Vista {
 	private JButton btnInsertar;
 	private JButton btnBorrar;
 	private JButton btnActualizar;
-	private JButton btnSalir;
+	private JButton buttonIzquierda10;
+	private JButton buttonIzquierda;
+	private JButton buttonDerecha;
+	private JButton btnNewDerecha10;
+	private JMenu mnFicheros;
+	private JMenu mnInfo;
+	private JMenuItem menuItemAcercaDe;
+	private JMenuItem menuItemCargarDatos;
+	private JMenuItem menuItemSalir;
+	private JScrollPane scrollPane;
 
 	/**
 	 * Launch the application.
@@ -44,29 +53,56 @@ public class Vista {
 	public Vista() {
 		initialize();
 	}
+	
+	
+	public JButton getButtonIzquierda10() {
+		return buttonIzquierda10;
+	}
+
+	public JButton getButtonIzquierda() {
+		return buttonIzquierda;
+	}
+
+	public JButton getButtonDerecha() {
+		return buttonDerecha;
+	}
+
+	public JButton getBtnNewDerecha10() {
+		return btnNewDerecha10;
+	}
+
+	
+	public JFrame getFrame() {
+		return frame;
+	}
 
 	public JButton getBtnInsertar() {
 		return btnInsertar;
 	}
 
-
-
 	public JButton getBtnBorrar() {
 		return btnBorrar;
 	}
-
-
 
 	public JButton getBtnActualizar() {
 		return btnActualizar;
 	}
 
-
-
-	public JButton getBtnSalir() {
-		return btnSalir;
+	public JMenuItem getMenuItemAcercaDe() {
+		return menuItemAcercaDe;
 	}
 
+	public JMenuItem getMenuItemCargarDatos() {
+		return menuItemCargarDatos;
+	}
+
+	public JMenuItem getMenuItemSalir() {
+		return menuItemSalir;
+	}
+
+	public JScrollPane getScrollPane() {
+		return scrollPane;
+	}
 
 
 	/**
@@ -76,33 +112,40 @@ public class Vista {
 	
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 500, 400);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setResizable(false);
 		frame.setVisible(true);
 		
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
 		
-		JMenu mnFicheros = new JMenu("Cargar");
+		mnFicheros = new JMenu("Cargar");
 		menuBar.add(mnFicheros);
 		
-		JMenuItem mntmCargarDatos = new JMenuItem("Cargar datos");
-		mnFicheros.add(mntmCargarDatos);
+		menuItemCargarDatos = new JMenuItem("Cargar datos");
+		mnFicheros.add(menuItemCargarDatos);
 		
-		JMenuItem mntmSalir = new JMenuItem("Salir");
-		mnFicheros.add(mntmSalir);
+		menuItemSalir = new JMenuItem("Salir");
+		mnFicheros.add(menuItemSalir);
 		
-		JMenu mnSobre = new JMenu("Sobre");
-		menuBar.add(mnSobre);
+		mnInfo = new JMenu("Info");
+		menuBar.add(mnInfo);
 		
-		JMenuItem mntmSobre = new JMenuItem("Sobre");
-		mnSobre.add(mntmSobre);
+		menuItemAcercaDe = new JMenuItem("Acerca de");
+		mnInfo.add(menuItemAcercaDe);
 		
-		JScrollPane scrollPane = new JScrollPane();
+		scrollPane = new JScrollPane();
 		frame.getContentPane().add(scrollPane, BorderLayout.NORTH);
 		
 		JPanel panel = new JPanel();
 		frame.getContentPane().add(panel, BorderLayout.SOUTH);
+		
+		buttonIzquierda10 = new JButton("<<");
+		panel.add(buttonIzquierda10);
+		
+		buttonIzquierda = new JButton("<");
+		panel.add(buttonIzquierda);
 		
 		btnInsertar = new JButton("Insertar");
 		panel.add(btnInsertar);
@@ -113,13 +156,11 @@ public class Vista {
 		btnActualizar = new JButton("Actualizar");
 		panel.add(btnActualizar);
 		
-		btnSalir = new JButton("Salir");
-		btnSalir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
-		panel.add(btnSalir);
+		buttonDerecha = new JButton(">");
+		panel.add(buttonDerecha);
+		
+		btnNewDerecha10 = new JButton(">>");
+		panel.add(btnNewDerecha10);
 	}
 
 }
