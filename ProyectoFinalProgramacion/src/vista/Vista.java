@@ -13,6 +13,8 @@ import javax.swing.JPanel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class Vista {
 
@@ -117,6 +119,7 @@ public class Vista {
 		frame.setResizable(false);
 		frame.setVisible(true);
 		
+		
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
 		
@@ -134,9 +137,6 @@ public class Vista {
 		
 		menuItemAcercaDe = new JMenuItem("Acerca de");
 		mnInfo.add(menuItemAcercaDe);
-		
-		scrollPane = new JScrollPane();
-		frame.getContentPane().add(scrollPane, BorderLayout.NORTH);
 		
 		JPanel panel = new JPanel();
 		frame.getContentPane().add(panel, BorderLayout.SOUTH);
@@ -161,6 +161,17 @@ public class Vista {
 		
 		btnNewDerecha10 = new JButton(">>");
 		panel.add(btnNewDerecha10);
+		
+		btnActualizar.setEnabled(false);
+		btnBorrar.setEnabled(false);
+		btnInsertar.setEnabled(false);
+		btnNewDerecha10.setEnabled(false);
+		buttonDerecha.setEnabled(false);
+		buttonIzquierda.setEnabled(false);
+		buttonIzquierda10.setEnabled(false);
+		
+		scrollPane = new JScrollPane();
+		frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
 	}
 
 }

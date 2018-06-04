@@ -11,7 +11,8 @@ import java.util.List;
 public class PeliculaDAOImp implements PeliculaDAO {
 
 	private static Connection conexion = Conexion.getConexion();
-	private String[] header = {"codigo", "pelicula", "director", "genero"};
+	
+	/*private String[] header = {"codigo", "pelicula", "director", "genero"};
 	private String[][] pintarTablas;
 	
 	
@@ -29,7 +30,7 @@ public class PeliculaDAOImp implements PeliculaDAO {
 
 	public void setPintarTablas(String[][] pintarTablas) {
 		this.pintarTablas = pintarTablas;
-	}
+	}*/
 
 	@Override
 	public List<PeliculaDTO> listarPeliculas() {
@@ -95,7 +96,6 @@ public class PeliculaDAOImp implements PeliculaDAO {
 		String sql = "UPDATE pelicula SET pelicula = ?, director = ?, genero = ? WHERE codigo = ?;";
 
 		try (PreparedStatement pst = conexion.prepareStatement(sql);){
-
 			for (PeliculaDTO peliculaDTO : listaPeliculas) {
 				pst.setString(1, peliculaDTO.getPelicula());
 				pst.setString(2, peliculaDTO.getDirector());
@@ -167,6 +167,7 @@ public class PeliculaDAOImp implements PeliculaDAO {
 			pst.setString(4, pelicula.getGenero());
 
 			peliculaInsert++;
+			System.out.println(peliculaInsert);
 			pst.executeUpdate();
 
 		} catch (SQLException e) {

@@ -23,7 +23,7 @@ public class LeerCSV {
 	
 	
 
-	public String[] datosCsv() {
+	public String[] getDatosCsv() {
 		return datosCsv;
 	}
 
@@ -34,37 +34,45 @@ public class LeerCSV {
 	public static List<PeliculaDTO> getListaPeliculas() {
 		return listaPeliculas;
 	}
+	
+	
 
 	public LeerCSV(String fichero) {
 		cargarDatosFichero(fichero);
 	}
 
 	//metodo para cargar datos pasandole como argumento un fichero
-	public static List<PeliculaDTO> cargarDatosFichero(String fichero) {
+	public static void cargarDatosFichero(String fichero) {
 
 		//Utilizando la clase externa CSVReader
 
-
+		int contador = 0;
 		try (CSVReader csvReader = new CSVReader(new FileReader(fichero));){
-
 			datosCsv = csvReader.readNext();//cabecera
-			System.out.println(Arrays.toString(datosCsv));
-			while((datosCsv = csvReader.readNext()) != null) {
-
-				listaPeliculas.add(new PeliculaDTO(datosCsv[0], datosCsv[1], datosCsv[2], 
-						datosCsv[3]));
-				completarArrays();
+			String[] dataReader;
+			while((dataReader = csvReader.readNext()) != null) {
+				
+				listaPeliculas.add(new PeliculaDTO(dataReader[0], dataReader[1], dataReader[2], 
+						dataReader[3]));
+				contador++;
+				System.out.println("añadiendo peliculas : " + contador);
+				
 			}
-
+			
+			completarArrays();
+			System.out.println(listaPeliculas.size());
+			System.out.println("Lista añadida");
+			
 			//System.out.println(listaPeliculas);
 		} catch (IOException | ExceptionPelicula e) {
 
 		}
 
-		return listaPeliculas;
+		//return listaPeliculas;
+
 	}
 
-	private static void completarArrays() {
+	public static void completarArrays() {
 		data = new Object[listaPeliculas.size()][4];
 		int contador = 0;
 		for (PeliculaDTO pelicula: listaPeliculas) {

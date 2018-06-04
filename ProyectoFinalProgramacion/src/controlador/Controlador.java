@@ -2,18 +2,23 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableModel;
 
-
+import modelo.ExceptionPelicula;
 import modelo.LeerCSV;
+import modelo.PeliculaDAO;
+import modelo.PeliculaDAOImp;
 import modelo.PeliculaDTO;
 import modelo.TablaModel;
 import vista.Vista;
@@ -25,6 +30,9 @@ public class Controlador implements ActionListener, TableModelListener {
 	private List<PeliculaDTO> listaPePelicula;
 	private int contador = 0;
 	private String path;
+	
+	
+	
 
 	public Controlador(Vista vista) {
 		this.vista = vista;
@@ -41,20 +49,11 @@ public class Controlador implements ActionListener, TableModelListener {
 		vista.getMenuItemAcercaDe().addActionListener(this);
 		vista.getMenuItemCargarDatos().addActionListener(this);
 		vista.getMenuItemSalir().addActionListener(this);
-		
+
 
 
 	}
 
-	/*private void colocarFormulario(int i) {
-		vista.getTextFieldName().setText(listaPersona.get(i).getNombre());
-		vista.getTextFieldLastName().setText(listaPersona.get(i).getApellidos());
-		vista.getTextFieldGender().setText(listaPersona.get(i).getGenero() + "");
-		vista.getTextFieldLanguage().setText(listaPersona.get(i).getLenguaje());
-		vista.getTextFieldRace().setText(listaPersona.get(i).getRaza());
-
-
-	}*/
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -67,9 +66,8 @@ public class Controlador implements ActionListener, TableModelListener {
 				salirAplicacion();
 			else if (menuItem.getText().equals("Acerca de")) {
 				desplegarInformacion();
-				System.out.println(menuItem.getText());
 			}
-				
+
 			else
 				lanzarEleccionFichero();
 		}
@@ -97,17 +95,27 @@ public class Controlador implements ActionListener, TableModelListener {
 				System.out.println("pulsado " + textoBoton);
 				//contador -= 10;
 				//colocarFormulario(contador);
+				break;
+			case "Borrar":
+				System.out.println("pulsado " + textoBoton);
+				
+				break;
+			case "Insertar":
+				System.out.println("pulsado " + textoBoton);
+				
+				break;
+			case "Actualizar":
+				System.out.println("pulsado " + textoBoton);
+				
+				break;
+				
 			default:
 				break;
 			}
-			//contador %= listaPePelicula.size();
-
-			//if(contador < 0) 
-				//contador += listaPePelicula.size();
-			//colocarFormulario(contador);
 
 		}
 	}
+	
 	private void lanzarEleccionFichero() {
 		JFileChooser jFileChooser = new JFileChooser(".");
 		int resultado = jFileChooser.showOpenDialog(vista.getFrame());
@@ -120,16 +128,38 @@ public class Controlador implements ActionListener, TableModelListener {
 			vista.getBtnNewDerecha10().setEnabled(true);
 			vista.getButtonDerecha().setEnabled(true);
 			vista.getButtonIzquierda10().setEnabled(true);
+			vista.getBtnActualizar().setEnabled(true);
+			vista.getBtnBorrar().setEnabled(true);
+			vista.getBtnInsertar().setEnabled(true);
 			vista.getMenuItemAcercaDe().setEnabled(false);
-			
-			TablaModel mtTabla = new TablaModel(leerFichero);
+			vista.getMenuItemCargarDatos().setEnabled(false);
+
+			/*TablaModel mtTabla = new TablaModel(leerFichero);
 			JTable jTable = new JTable(mtTabla);
 			jTable.getModel().addTableModelListener(this);
-			vista.getScrollPane().setViewportView(jTable);
+			vista.getScrollPane().setViewportView(jTable);*/
 
+			
+			TablaModel dm = new TablaModel(leerFichero);
+			JTable jTable = new JTable(dm);
+			jTable.getModel().addTableModelListener(this);
+			vista.getScrollPane().setViewportView(jTable);
+			System.out.println(jTable.isEnabled());
+			
+			
+			/*table = new JTable();
+			String[] row = {"codigo", "pelicula", "director", "genero"};
+			String[][] col = {{}};
+			DefaultTableModel dtm = new DefaultTableModel(col, row);
+			table.setModel(dtm);
+			JScrollPane sp = new JScrollPane();
+			sp.setViewportView(table);
+			frame.add(sp);*/
+			
 		}
 
 	}
+	
 	private void desplegarInformacion() {
 		JOptionPane jpJOptionPane = new JOptionPane();
 		jpJOptionPane.showMessageDialog(vista.getFrame(), 
@@ -144,7 +174,7 @@ public class Controlador implements ActionListener, TableModelListener {
 	@Override
 	public void tableChanged(TableModelEvent e) {
 		// TODO Auto-generated method stub
-		
-	}
 
+	}
+	
 }

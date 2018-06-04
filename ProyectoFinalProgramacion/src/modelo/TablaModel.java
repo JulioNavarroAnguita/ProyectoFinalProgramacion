@@ -9,10 +9,19 @@ public class TablaModel extends AbstractTableModel {
 	String[] cabecera;
 	Object[][] datos;
 	
+	public String[] getCabecera() {
+		return cabecera;
+	}
+	public Object[][] getDatos() {
+		return datos;
+	}
+	
+	
 	public TablaModel(LeerCSV leerFichero) {
-		cabecera = leerFichero.datosCsv();
+		cabecera = leerFichero.getDatosCsv();
 		datos = leerFichero.getData();
 	}
+	
 	@Override
 	public int getRowCount() {
 		// TODO Auto-generated method stub
@@ -37,7 +46,7 @@ public class TablaModel extends AbstractTableModel {
 	}
 	@Override
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
-		if (columnIndex < 2)
+		if (columnIndex < 1)
 			return false;
 		return true;
 	}
