@@ -52,8 +52,10 @@ public class TablaModel extends AbstractTableModel {
 	}
 	@Override
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-		System.out.println(((PeliculaDTO)aValue).toString());
+		System.out.println(aValue);
 		System.out.println(datos[rowIndex][columnIndex]);
+		
+		
 	}
 
 	

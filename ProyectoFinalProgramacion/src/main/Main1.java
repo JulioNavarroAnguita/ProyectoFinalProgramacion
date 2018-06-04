@@ -20,9 +20,9 @@ public class Main1 {
 
 		manipulacion.crearTabla();
 		manipulacion.insertarPeliculas(listaPelicula);
-		System.out.println(manipulacion.listarPeliculas());*/
+		//System.out.println(manipulacion.listarPeliculas());*/
 
-
+		//https://www.youtube.com/watch?v=tvyRvF6-j94
 
 
 	}

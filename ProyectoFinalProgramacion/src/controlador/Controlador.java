@@ -105,7 +105,8 @@ public class Controlador implements ActionListener, TableModelListener {
 				
 				break;
 			case "Actualizar":
-				System.out.println("pulsado " + textoBoton);
+				//System.out.println("pulsado " + textoBoton);
+				
 				
 				break;
 				
@@ -144,7 +145,7 @@ public class Controlador implements ActionListener, TableModelListener {
 			JTable jTable = new JTable(dm);
 			jTable.getModel().addTableModelListener(this);
 			vista.getScrollPane().setViewportView(jTable);
-			System.out.println(jTable.isEnabled());
+			//System.out.println(jTable.isEnabled());
 			
 			
 			/*table = new JTable();
@@ -163,7 +164,7 @@ public class Controlador implements ActionListener, TableModelListener {
 	private void desplegarInformacion() {
 		JOptionPane jpJOptionPane = new JOptionPane();
 		jpJOptionPane.showMessageDialog(vista.getFrame(), 
-				"Creado por Julio Navarro Anguita", "Información Autor",
+				"Creado por Julio Navarro Anguita", "Informaciï¿½n Autor",
 				JOptionPane.INFORMATION_MESSAGE);
 
 	}
@@ -173,7 +174,8 @@ public class Controlador implements ActionListener, TableModelListener {
 	}
 	@Override
 	public void tableChanged(TableModelEvent e) {
-		// TODO Auto-generated method stub
+
+		
 
 	}
 	
