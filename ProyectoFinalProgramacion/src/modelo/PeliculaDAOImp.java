@@ -247,6 +247,10 @@ public class PeliculaDAOImp implements PeliculaDAO {
 		}
 
 	}
+	
+	public static void main(String[] args) {
+	
+	}
 
 	@Override
 	public boolean comprobarExisteTabla() {

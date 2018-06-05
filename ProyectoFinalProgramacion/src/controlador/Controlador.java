@@ -23,13 +23,17 @@ import modelo.PeliculaDTO;
 import modelo.TablaModel;
 import vista.Vista;
 
-public class Controlador implements ActionListener, TableModelListener {
+public class Controlador implements ActionListener {
 
 	private Vista vista;
 	private LeerCSV leerFichero;
 	private List<PeliculaDTO> listaPePelicula;
 	private int contador = 0;
 	private String path;
+	JTable jTable;
+	TablaModel dm;
+	
+	
 	
 	
 	
@@ -97,7 +101,8 @@ public class Controlador implements ActionListener, TableModelListener {
 				//colocarFormulario(contador);
 				break;
 			case "Borrar":
-				System.out.println("pulsado " + textoBoton);
+				//int row = jTable.getModel()
+				//System.out.println("pulsado " + textoBoton);
 				
 				break;
 			case "Insertar":
@@ -141,9 +146,9 @@ public class Controlador implements ActionListener, TableModelListener {
 			vista.getScrollPane().setViewportView(jTable);*/
 
 			
-			TablaModel dm = new TablaModel(leerFichero);
-			JTable jTable = new JTable(dm);
-			jTable.getModel().addTableModelListener(this);
+			dm = new TablaModel(leerFichero);
+			jTable = new JTable(dm);
+			//jTable.getModel().addTableModelListener(this);
 			vista.getScrollPane().setViewportView(jTable);
 			//System.out.println(jTable.isEnabled());
 			
@@ -172,11 +177,6 @@ public class Controlador implements ActionListener, TableModelListener {
 		System.exit(0);
 
 	}
-	@Override
-	public void tableChanged(TableModelEvent e) {
-
-		
-
-	}
+	
 	
 }
