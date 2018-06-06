@@ -17,6 +17,7 @@ import com.opencsv.CSVReaderBuilder;
 
 public class LeerCSV {
 
+	
 	private static List<PeliculaDTO> listaPeliculas = new ArrayList<>();
 	private static String[] datosCsv;
 	

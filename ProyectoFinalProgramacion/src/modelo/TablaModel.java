@@ -10,7 +10,6 @@ import javax.swing.table.AbstractTableModel;
 import controlador.Controlador;
 
 
-
 public class TablaModel extends AbstractTableModel{
 
 	String[] cabecera;

@@ -2,6 +2,7 @@ package modelo;
 
 public class ExceptionPelicula extends Exception {
 
+	
 	public ExceptionPelicula(String mensaje) {
 
 	}

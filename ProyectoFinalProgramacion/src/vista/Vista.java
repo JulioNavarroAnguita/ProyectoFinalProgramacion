@@ -18,6 +18,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class Vista {
 
+	
 	private JFrame frame;
 	private JButton btnInsertar;
 	private JButton btnBorrar;
