@@ -16,6 +16,7 @@ public class PeliculaDAOImp implements PeliculaDAO {
 	private String[][] pintarTablas;
 	
 	
+	
 	public String[] getHeader() {
 		return header;
 	}

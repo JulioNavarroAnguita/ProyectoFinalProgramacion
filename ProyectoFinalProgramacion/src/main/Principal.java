@@ -26,6 +26,7 @@ public class Principal {
 				}
 			}
 		});
+		
 	}
 
 	/*List<PeliculaDTO> lista = load.getListaPeliculas();
