@@ -13,6 +13,6 @@ public interface PeliculaDAO {
 	boolean actualizarPellicula(PeliculaDTO pelicula);
 	boolean borrarPelicula(PeliculaDTO pelicula);
 	void crearTabla();
-	boolean comprobarExisteTabla();
+	boolean comprobarExistenDatos();
 }
 

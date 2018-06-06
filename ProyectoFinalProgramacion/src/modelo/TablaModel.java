@@ -7,14 +7,16 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 
+import controlador.Controlador;
+
 
 
 public class TablaModel extends AbstractTableModel{
 
 	String[] cabecera;
 	Object[][] datos;
-	PeliculaDTO peliculaDTO;
 	PeliculaDAOImp pDaoImp = new PeliculaDAOImp();
+	Controlador controlador = new Controlador();
 	
 	public String[] getCabecera() {
 		return cabecera;
@@ -26,7 +28,7 @@ public class TablaModel extends AbstractTableModel{
 	
 	public TablaModel(LeerCSV leerFichero) {
 		cabecera = leerFichero.getDatosCsv();
-		datos = leerFichero.getData();
+		datos = controlador.getData();
 	}
 	
 	@Override
@@ -60,9 +62,9 @@ public class TablaModel extends AbstractTableModel{
 	@Override
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 		datos[rowIndex][columnIndex] = aValue;
-		System.out.println(aValue);
-		System.out.println(datos[rowIndex][columnIndex]);
-		System.out.println(aValue);
+		/*System.out.println(aValue);
+		System.out.println(datos[rowIndex][columnIndex]);(String)
+		System.out.println(aValue);*/
 		fireTableCellUpdated(rowIndex, columnIndex);
 		String codigo = (String) datos[rowIndex][0];
 		String pelicula = (String) datos[rowIndex][1];
@@ -70,9 +72,8 @@ public class TablaModel extends AbstractTableModel{
 		String genero = (String) datos[rowIndex][3];
 		
 		try {
-			List<PeliculaDTO> listaPeliculasActualizadas = new ArrayList<>();
-			listaPeliculasActualizadas.add(new PeliculaDTO(codigo, pelicula, director, genero));
-			pDaoImp.actualizarPeliculas(listaPeliculasActualizadas);
+			PeliculaDTO peliculaUpdate = new PeliculaDTO(codigo, pelicula, director, genero);
+			pDaoImp.actualizarPellicula(peliculaUpdate);
 			
 			
 			
@@ -86,17 +87,29 @@ public class TablaModel extends AbstractTableModel{
 	}
 	
 	public void deleteRow(int row) {
-		//List<PeliculaDTO> borrarLista = new ArrayList<>();
 		
-		for (int i = row; i < getRowCount(); i++) {
-			datos[i][0] = datos[i+1][0];
-			datos[i][1] = datos[i+1][1];
-			datos[i][2] = datos[i+1][2];
-			datos[i][3] = datos[i+1][3];
+		
+		try {
+			PeliculaDTO peliculaBorrada = new PeliculaDTO((String)datos[row][0], (String)datos[row][1], 
+					(String) datos[row][2],(String) datos[row][3]);
 			
+			for (int i = row; i < datos.length -1; i++) {
+				datos[i][0] = datos[i+1][0];
+				datos[i][1] = datos[i+1][1];
+				datos[i][2] = datos[i+1][2];
+				datos[i][3] = datos[i+1][3];
+				
+			}
+			
+			pDaoImp.borrarPelicula(peliculaBorrada);
+			fireTableDataChanged();
+		} catch (ExceptionPelicula e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		//pDaoImp.borrarPelicula(
-		fireTableDataChanged();
+		
+		
+	
 	}
 	
 	

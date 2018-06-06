@@ -19,7 +19,6 @@ public class LeerCSV {
 
 	private static List<PeliculaDTO> listaPeliculas = new ArrayList<>();
 	private static String[] datosCsv;
-	private static Object[][] data;
 	
 	
 
@@ -27,9 +26,6 @@ public class LeerCSV {
 		return datosCsv;
 	}
 
-	public Object[][] getData() {
-		return data;
-	}
 
 	public static List<PeliculaDTO> getListaPeliculas() {
 		return listaPeliculas;
@@ -55,36 +51,18 @@ public class LeerCSV {
 				listaPeliculas.add(new PeliculaDTO(dataReader[0], dataReader[1], dataReader[2], 
 						dataReader[3]));
 				contador++;
-				System.out.println("añadiendo peliculas : " + contador);
+				System.out.println("aï¿½adiendo peliculas : " + contador);
 				
 			}
-			
-			completarArrays();
-			System.out.println(listaPeliculas.size());
-			System.out.println("Lista añadida");
-			
-			//System.out.println(listaPeliculas);
+
 		} catch (IOException | ExceptionPelicula e) {
 
 		}
 
-		//return listaPeliculas;
 
 	}
 
-	public static void completarArrays() {
-		data = new Object[listaPeliculas.size()][4];
-		int contador = 0;
-		for (PeliculaDTO pelicula: listaPeliculas) {
-			data[contador][0] = pelicula.getCodigo();
-			data[contador][1] = pelicula.getPelicula();
-			data[contador][2] = pelicula.getDirector();
-			data[contador][3] = pelicula.getGenero();
-
-			contador++;
-		}
-		
-	}
+	
 }
 
 

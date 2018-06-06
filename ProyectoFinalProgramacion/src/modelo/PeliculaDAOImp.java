@@ -76,7 +76,7 @@ public class PeliculaDAOImp implements PeliculaDAO {
 				peliculasBorradas += pst.executeUpdate();
 			}
 
-			System.out.println("Peliculas borradas: " + peliculasBorradas);
+			//System.out.println("Peliculas borradas: " + peliculasBorradas);
 			if(peliculasBorradas > 0)
 				borrado = true;
 
@@ -105,7 +105,7 @@ public class PeliculaDAOImp implements PeliculaDAO {
 				peliculasActualizadas += pst.executeUpdate();
 			}
 
-			System.out.println("Peliculas actualizadas: " + peliculasActualizadas);
+			//System.out.println("Peliculas actualizadas: " + peliculasActualizadas);
 			if(peliculasActualizadas > 0)
 				actualizado = true;
 
@@ -137,7 +137,7 @@ public class PeliculaDAOImp implements PeliculaDAO {
 			//	pst.executeUpdate();*/
 				insertarPelicula(peliculaDTO);
 				
-				System.out.println("Peliculas insertada: " + contador);
+				//System.out.println("Peliculas insertada: " + contador);
 
 			}
 
@@ -186,7 +186,7 @@ public class PeliculaDAOImp implements PeliculaDAO {
 
 		boolean update = false;
 		int peliculaUpdate = 0;
-		String sql = "UPDATE pelicula SET pelicula = ?, director = ?, genero = ? WHERE codigo = ?);";
+		String sql = "UPDATE pelicula SET pelicula = ?, director = ?, genero = ? WHERE codigo = ?;";
 
 		try (PreparedStatement pst = conexion.prepareStatement(sql);){
 			pst.setString(1, pelicula.getPelicula());
@@ -248,14 +248,22 @@ public class PeliculaDAOImp implements PeliculaDAO {
 
 	}
 	
-	public static void main(String[] args) {
-	
-	}
 
 	@Override
-	public boolean comprobarExisteTabla() {
+	public boolean comprobarExistenDatos() {
+		int existenDatos = 0;
+		String sql = "SELECT COUNT(*) FROM pelicula;";
 		
-		return false;
+		try (Statement st = conexion.createStatement(); ResultSet rst = st.executeQuery(sql);){
+			if(rst.getInt(1) > 0)
+				existenDatos = 1;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return existenDatos == 1;
 	}
 
 

@@ -30,18 +30,29 @@ public class Controlador implements ActionListener {
 	private List<PeliculaDTO> listaPePelicula;
 	private int contador = 0;
 	private String path;
+	PeliculaDAO manipulacion = new PeliculaDAOImp();
 	JTable jTable;
-	TablaModel dm;
 	
-	
-	
-	
-	
+	private static Object[][] data;
 
+	public Controlador(){}
+	
 	public Controlador(Vista vista) {
 		this.vista = vista;
 		registrarComponentes();
+		
+		if(manipulacion.comprobarExistenDatos()) 
+			completarArrays(manipulacion.listarPeliculas());
+		
+		else
+			completarArrays(leerFichero.getListaPeliculas());
 	}
+	
+
+	public Object[][] getData() {
+		return data;
+	}
+	
 	private void registrarComponentes() {
 		vista.getBtnActualizar().addActionListener(this);
 		vista.getBtnBorrar().addActionListener(this);
@@ -101,69 +112,76 @@ public class Controlador implements ActionListener {
 				//colocarFormulario(contador);
 				break;
 			case "Borrar":
-				//int row = jTable.getModel()
+				int row = jTable.getSelectionModel().getMinSelectionIndex();
+				((TablaModel) jTable.getModel()).deleteRow(row);
 				//System.out.println("pulsado " + textoBoton);
-				
+
 				break;
 			case "Insertar":
 				System.out.println("pulsado " + textoBoton);
-				
+
 				break;
 			case "Actualizar":
 				//System.out.println("pulsado " + textoBoton);
-				
-				
+
+
 				break;
-				
+
 			default:
 				break;
 			}
 
 		}
 	}
-	
+
 	private void lanzarEleccionFichero() {
-		JFileChooser jFileChooser = new JFileChooser(".");
+		JFileChooser jFileChooser = new JFileChooser("./Ficheros");
 		int resultado = jFileChooser.showOpenDialog(vista.getFrame());
 		if (resultado == jFileChooser.APPROVE_OPTION) {
 			path = jFileChooser.getSelectedFile().getPath();
 			leerFichero = new LeerCSV(path);
 			listaPePelicula = leerFichero.getListaPeliculas();
-			//colocarFormulario(contador);
-			vista.getButtonIzquierda().setEnabled(true);
-			vista.getBtnNewDerecha10().setEnabled(true);
-			vista.getButtonDerecha().setEnabled(true);
-			vista.getButtonIzquierda10().setEnabled(true);
-			vista.getBtnActualizar().setEnabled(true);
-			vista.getBtnBorrar().setEnabled(true);
-			vista.getBtnInsertar().setEnabled(true);
-			vista.getMenuItemAcercaDe().setEnabled(false);
-			vista.getMenuItemCargarDatos().setEnabled(false);
 
-			/*TablaModel mtTabla = new TablaModel(leerFichero);
-			JTable jTable = new JTable(mtTabla);
-			jTable.getModel().addTableModelListener(this);
-			vista.getScrollPane().setViewportView(jTable);*/
+			activarDesactivarBotones();
+			pintarTabla();
 
-			
-			dm = new TablaModel(leerFichero);
-			jTable = new JTable(dm);
-			//jTable.getModel().addTableModelListener(this);
-			vista.getScrollPane().setViewportView(jTable);
-			//System.out.println(jTable.isEnabled());
-			
-			
-			/*table = new JTable();
-			String[] row = {"codigo", "pelicula", "director", "genero"};
-			String[][] col = {{}};
-			DefaultTableModel dtm = new DefaultTableModel(col, row);
-			table.setModel(dtm);
-			JScrollPane sp = new JScrollPane();
-			sp.setViewportView(table);
-			frame.add(sp);*/
-			
+
 		}
 
+	}
+
+	private void pintarTabla() {
+
+		TablaModel dm = new TablaModel(leerFichero);
+		jTable = new JTable(dm);
+		vista.getScrollPane().setViewportView(jTable);
+
+	}
+	private void activarDesactivarBotones() {
+		vista.getButtonIzquierda().setEnabled(true);
+		vista.getBtnNewDerecha10().setEnabled(true);
+		vista.getButtonDerecha().setEnabled(true);
+		vista.getButtonIzquierda10().setEnabled(true);
+		vista.getBtnActualizar().setEnabled(true);
+		vista.getBtnBorrar().setEnabled(true);
+		vista.getBtnInsertar().setEnabled(true);
+		vista.getMenuItemAcercaDe().setEnabled(false);
+		vista.getMenuItemCargarDatos().setEnabled(false);
+
+	}
+	
+	public static void completarArrays(List<PeliculaDTO> lista) {
+		data = new Object[lista.size()][4];
+		int contador = 0;
+		for (PeliculaDTO pelicula: lista) {
+			data[contador][0] = pelicula.getCodigo();
+			data[contador][1] = pelicula.getPelicula();
+			data[contador][2] = pelicula.getDirector();
+			data[contador][3] = pelicula.getGenero();
+
+			contador++;
+		}
+		
 	}
 	
 	private void desplegarInformacion() {
@@ -177,6 +195,6 @@ public class Controlador implements ActionListener {
 		System.exit(0);
 
 	}
-	
-	
+
+
 }
