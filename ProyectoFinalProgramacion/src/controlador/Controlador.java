@@ -94,6 +94,7 @@ public class Controlador implements ActionListener {
 			case ">":
 				System.out.println("pulsado " + textoBoton);
 				//contador++;//
+				
 				//colocarFormulario(contador);
 				break;
 			case ">>":

@@ -59,6 +59,7 @@ public class TablaModel extends AbstractTableModel{
 			return false;
 		return true;
 		
+		
 	}
 	@Override
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {

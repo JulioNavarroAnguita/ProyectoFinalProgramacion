@@ -112,6 +112,7 @@ public class Vista {
 	 */
 	
 	
+	
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 550, 450);

@@ -14,5 +14,6 @@ public interface PeliculaDAO {
 	boolean borrarPelicula(PeliculaDTO pelicula);
 	void crearTabla();
 	boolean comprobarExistenDatos();
+	
 }
 
