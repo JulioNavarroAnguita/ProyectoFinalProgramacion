@@ -15,12 +15,14 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
+import org.w3c.dom.views.AbstractView;
+
 import modelo.ExceptionPelicula;
 import modelo.LeerCSV;
 import modelo.PeliculaDAO;
 import modelo.PeliculaDAOImp;
 import modelo.PeliculaDTO;
-import modelo.TablaModel;
+import modelo.TablaModelo;
 import vista.Vista;
 
 public class Controlador implements ActionListener {
@@ -29,32 +31,51 @@ public class Controlador implements ActionListener {
 	private LeerCSV leerFichero;
 	private List<PeliculaDTO> listaPePelicula;
 	private int contador = 0;
+	DefaultTableModel dtm;
+
+
+	public static void setData(Object[][] data) {
+		Controlador.data = data;
+	}
 	private String path;
 	PeliculaDAO manipulacion = new PeliculaDAOImp();
 	JTable jTable;
-	
+
+
+	String[] cabecera = {"codigo","pelicula","director","genero"};
 	private static Object[][] data;
 
+
 	public Controlador(){}
-	
+
 	public Controlador(Vista vista) {
 		this.vista = vista;
 		registrarComponentes();
-		
-		if(manipulacion.comprobarExistenDatos()) 
+
+
+
+		if(manipulacion.comprobarExistenDatos()) {
 			completarArrays(manipulacion.listarPeliculas());
-		
-		else
-			completarArrays(leerFichero.getListaPeliculas());
+			activarDesactivarBotones();
+			pintarTabla();
+			//vista.redimensionarJSPlit();
+
+
+		}
+		else {
+			//System.out.println("Aqui entra");
+			manipulacion.crearTabla();
+			completarArrays(manipulacion.listarPeliculas());
+		}
 	}
-	
+
 
 	public Object[][] getData() {
 		return data;
 	}
-	
+
 	private void registrarComponentes() {
-		vista.getBtnActualizar().addActionListener(this);
+
 		vista.getBtnBorrar().addActionListener(this);
 		vista.getBtnInsertar().addActionListener(this);
 		vista.getBtnNewDerecha10().addActionListener(this);
@@ -64,8 +85,6 @@ public class Controlador implements ActionListener {
 		vista.getMenuItemAcercaDe().addActionListener(this);
 		vista.getMenuItemCargarDatos().addActionListener(this);
 		vista.getMenuItemSalir().addActionListener(this);
-
-
 
 	}
 
@@ -112,18 +131,13 @@ public class Controlador implements ActionListener {
 				//colocarFormulario(contador);
 				break;
 			case "Borrar":
-				int row = jTable.getSelectionModel().getMinSelectionIndex();
-				((TablaModel) jTable.getModel()).deleteRow(row);
-				//System.out.println("pulsado " + textoBoton);
+				/*int row = jTable.getSelectionModel().getMinSelectionIndex();
+				((TablaModel) jTable.getModel()).deleteRow(row);*/
+				borrarPeliculaTabla();
 
 				break;
 			case "Insertar":
-				System.out.println("pulsado " + textoBoton);
-
-				break;
-			case "Actualizar":
 				//System.out.println("pulsado " + textoBoton);
-
 
 				break;
 
@@ -135,13 +149,12 @@ public class Controlador implements ActionListener {
 	}
 
 	private void lanzarEleccionFichero() {
-		JFileChooser jFileChooser = new JFileChooser("./Ficheros");
+		JFileChooser jFileChooser = new JFileChooser(".");
 		int resultado = jFileChooser.showOpenDialog(vista.getFrame());
 		if (resultado == jFileChooser.APPROVE_OPTION) {
 			path = jFileChooser.getSelectedFile().getPath();
 			leerFichero = new LeerCSV(path);
 			listaPePelicula = leerFichero.getListaPeliculas();
-
 			activarDesactivarBotones();
 			pintarTabla();
 
@@ -152,8 +165,8 @@ public class Controlador implements ActionListener {
 
 	private void pintarTabla() {
 
-		TablaModel dm = new TablaModel(leerFichero);
-		jTable = new JTable(dm);
+		dtm = new DefaultTableModel(data, cabecera);
+		jTable = new JTable(dtm);
 		vista.getScrollPane().setViewportView(jTable);
 
 	}
@@ -162,14 +175,17 @@ public class Controlador implements ActionListener {
 		vista.getBtnNewDerecha10().setEnabled(true);
 		vista.getButtonDerecha().setEnabled(true);
 		vista.getButtonIzquierda10().setEnabled(true);
-		vista.getBtnActualizar().setEnabled(true);
 		vista.getBtnBorrar().setEnabled(true);
 		vista.getBtnInsertar().setEnabled(true);
 		vista.getMenuItemAcercaDe().setEnabled(false);
 		vista.getMenuItemCargarDatos().setEnabled(false);
 
+		//vista.getTextFieldCodigo().setEditable(true);
+
+
+
 	}
-	
+
 	public static void completarArrays(List<PeliculaDTO> lista) {
 		data = new Object[lista.size()][4];
 		int contador = 0;
@@ -181,9 +197,39 @@ public class Controlador implements ActionListener {
 
 			contador++;
 		}
-		
+
 	}
-	
+
+	public void borrarPeliculaTabla() {
+		try {
+			PeliculaDTO peliBorrar = new PeliculaDTO((String) jTable.getValueAt(jTable.getSelectedRow(), 0), 
+					(String)jTable.getValueAt(jTable.getSelectedRow(), 1),
+					(String)jTable.getValueAt(jTable.getSelectedRow(), 2),
+					(String)jTable.getValueAt(jTable.getSelectedRow(), 3));
+			dtm = (DefaultTableModel) jTable.getModel(); 
+			dtm.removeRow(jTable.getSelectedRow()); 
+			manipulacion.borrarPelicula(peliBorrar);
+
+		} catch (ExceptionPelicula e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+
+	/*public void actualizarPeliculaTabla() {
+		try {
+			
+			PeliculaDTO actualizarPeliculaTabla = new PeliculaDTO((String) jTable.setValueAt(, row, column), 
+					(String)jTable.getValueAt(jTable.getSelectedRow(), 1),
+					(String)jTable.getValueAt(jTable.getSelectedRow(), 2),
+					(String)jTable.getValueAt(jTable.getSelectedRow(), 3));
+			manipulacion.actualizarPellicula(actualizarPeliculaTabla);
+		} catch (ExceptionPelicula e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}*/
+
 	private void desplegarInformacion() {
 		JOptionPane jpJOptionPane = new JOptionPane();
 		jpJOptionPane.showMessageDialog(vista.getFrame(), 
@@ -196,5 +242,11 @@ public class Controlador implements ActionListener {
 
 	}
 
+	public String[] getCabecera() {
 
+		return cabecera;
+	}
 }
+
+
+

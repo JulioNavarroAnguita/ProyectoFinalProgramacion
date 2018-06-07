@@ -16,25 +16,18 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 
 public class LeerCSV {
-
 	
 	private static List<PeliculaDTO> listaPeliculas = new ArrayList<>();
 	private static String[] datosCsv;
-	
-	
-
+		
 	public String[] getDatosCsv() {
 		return datosCsv;
 	}
-
 
 	public static List<PeliculaDTO> getListaPeliculas() {
 		return listaPeliculas;
 	}
 	
-	
-	
-
 	public LeerCSV(String fichero) {
 		cargarDatosFichero(fichero);
 	}
@@ -44,7 +37,7 @@ public class LeerCSV {
 
 		//Utilizando la clase externa CSVReader
 
-		int contador = 0;
+		//int contador = 0;
 		try (CSVReader csvReader = new CSVReader(new FileReader(fichero));){
 			datosCsv = csvReader.readNext();//cabecera
 			String[] dataReader;
@@ -52,8 +45,8 @@ public class LeerCSV {
 				
 				listaPeliculas.add(new PeliculaDTO(dataReader[0], dataReader[1], dataReader[2], 
 						dataReader[3]));
-				contador++;
-				System.out.println("a�adiendo peliculas : " + contador);
+				//contador++;
+				//System.out.println("a�adiendo peliculas : " + contador);
 				
 			}
 
@@ -63,7 +56,6 @@ public class LeerCSV {
 
 
 	}
-
 	
 }
 

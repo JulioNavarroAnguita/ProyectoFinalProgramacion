@@ -8,6 +8,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 
 public class PeliculaDAOImp implements PeliculaDAO {
 
@@ -52,7 +54,7 @@ public class PeliculaDAOImp implements PeliculaDAO {
 				listaPeliculas.add(peliculaDTO);
 			}
 
-			System.out.println("Total de peliculas: " + listaPeliculas.size());
+			//System.out.println("Total de peliculas: " + listaPeliculas.size());
 
 		} catch (SQLException | ExceptionPelicula e) {
 			// TODO Auto-generated catch block
@@ -131,6 +133,8 @@ public class PeliculaDAOImp implements PeliculaDAO {
 
 		try (PreparedStatement pst = conexion.prepareStatement(sql);){
 			int contador = 0;
+			JOptionPane jp = new JOptionPane();
+			jp.showMessageDialog(null, "Cargando datos espere...", "Cargando datos", JOptionPane.INFORMATION_MESSAGE);
 			for (PeliculaDTO peliculaDTO : listaPeliculas) {
 				/*pst.setString(1, peliculaDTO.getCodigo());
 				pst.setString(2, peliculaDTO.getPelicula());
@@ -140,11 +144,12 @@ public class PeliculaDAOImp implements PeliculaDAO {
 			//	pst.executeUpdate();*/
 				insertarPelicula(peliculaDTO);
 				
-				//System.out.println("Peliculas insertada: " + contador);
+				//System.out.println("Cargando datos: " + contador + "%");
 
 			}
-
-
+			jp.showMessageDialog(null, "Registros completados \n" + "Peliculas insertadas: " + contador, "Carga de datos", JOptionPane.INFORMATION_MESSAGE);
+			//System.out.println("Peliculas insertadas: " + contador);
+			
 
 
 		} catch (SQLException e) {
@@ -170,7 +175,7 @@ public class PeliculaDAOImp implements PeliculaDAO {
 			pst.setString(4, pelicula.getGenero());
 
 			peliculaInsert++;
-			System.out.println(peliculaInsert);
+			//System.out.println(peliculaInsert);
 			pst.executeUpdate();
 
 		} catch (SQLException e) {
@@ -243,6 +248,11 @@ public class PeliculaDAOImp implements PeliculaDAO {
 		try (Statement st = conexion.createStatement();){
 			st.executeUpdate(sql);
 			st.executeUpdate(sql1);
+			//Al crear la tabla inserto los datos del csv
+			//Primero cargo los datos del fichero para rellenar la lista
+			LeerCSV.cargarDatosFichero("Ficheros/peliculas.csv"); 
+			//Posterior inserto los datos
+			insertarPeliculas(LeerCSV.getListaPeliculas());
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -268,6 +278,5 @@ public class PeliculaDAOImp implements PeliculaDAO {
 		
 		return existenDatos == 1;
 	}
-
 
 }
