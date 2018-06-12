@@ -13,8 +13,6 @@ import vista.Vista;
 public class Principal {
 
 
-	
-
 	//LeerCSV load = new LeerCSV("Ficheros/peliculas.csv");
 
 	public static void main(String[] args) {

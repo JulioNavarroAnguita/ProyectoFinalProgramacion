@@ -39,7 +39,7 @@ public class LeerCSV {
 
 		//int contador = 0;
 		try (CSVReader csvReader = new CSVReader(new FileReader(fichero));){
-			datosCsv = csvReader.readNext();//cabecera
+			datosCsv = csvReader.readNext();//cabecera 
 			String[] dataReader;
 			while((dataReader = csvReader.readNext()) != null) {
 				

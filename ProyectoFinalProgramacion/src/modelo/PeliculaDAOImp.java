@@ -22,7 +22,6 @@ import vista.Vista;
 public class PeliculaDAOImp implements PeliculaDAO {
 
 	private static Connection conexion = Conexion.getConexion();
-	//private JProgressBar barraDeProgreso = new JProgressBar();
 
 	@Override
 	public List<PeliculaDTO> listarPeliculas() {

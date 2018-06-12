@@ -146,6 +146,7 @@ public class Controlador implements ActionListener {
 					//System.out.println("No ha seleccionado ninguna pelicula");//Poner un jOPTIONPANE
 					return;
 				}
+				
 				dtm.borrarPelicula(row);
 
 				//((TablaModelo)jTable.getModel()).deleteRow(jTable.getSelectedRow()); 

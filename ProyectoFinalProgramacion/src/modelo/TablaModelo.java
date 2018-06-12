@@ -112,49 +112,4 @@ public class TablaModelo extends AbstractTableModel {
 	}
 
 
-
-
-
-	/*public void addRow()  {
-		/*Object[] textFields = {
-				"codigo", vista.getTextFieldCodigo(),
-				"pelicula", vista.getTextFieldPelicula(),
-				"director", vista.getTextFieldDirector(),
-				"genero", vista.getTextFieldGenero()
-		};
-
-		Object[] fila = new Object[6];
-		fila[0] = vista.getTextFieldCodigo().getText();
-		fila[1] = vista.getTextFieldPelicula().getText();
-		fila[2] = vista.getTextFieldDirector().getText();
-		fila[3] = vista.getTextFieldGenero().getText();
-
-
-		int resultado = JOptionPane.showConfirmDialog(null, fila, "Añadir datos", JOptionPane.OK_CANCEL_OPTION);
-
-
-
-		try {
-			PeliculaDTO peliculaAdd = new PeliculaDTO(vista.getTextFieldCodigo().getText(), 
-					vista.getTextFieldPelicula().getText(), 
-					vista.getTextFieldDirector().getText(), 
-					vista.getTextFieldGenero().getText());
-
-			//if(resultado==JOptionPane.OK_OPTION) 
-				manipulando.insertarPelicula(peliculaAdd);
-				fireTableDataChanged();
-
-		} catch (ExceptionPelicula e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-
-
-
-
-	}*/
-
-
-
 }
