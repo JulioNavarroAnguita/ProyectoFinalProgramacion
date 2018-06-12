@@ -10,6 +10,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -26,7 +27,6 @@ import javax.swing.SwingConstants;
 import java.awt.FlowLayout;
 
 public class Vista {
-
 
 	private JFrame frame;
 	private JButton btnInsertar;
@@ -52,6 +52,8 @@ public class Vista {
 	private JTextField textFieldDirector;
 	private JTextField textFieldGenero;
 	PeliculaDAOImp pImp = new PeliculaDAOImp();
+	JProgressBar current;
+	int num = 0;
 	/**
 	 * Launch the application.
 	 */
@@ -131,7 +133,7 @@ public class Vista {
 
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 550, 450);
+		frame.setBounds(100, 100, 450, 450);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.setVisible(true);
@@ -168,6 +170,10 @@ public class Vista {
 		btnBorrar = new JButton("Borrar");
 		panel.add(btnBorrar);
 
+		btnInsertar = new JButton("Insertar");
+		panel.add(btnInsertar);
+		btnInsertar.setEnabled(false);
+
 		buttonDerecha = new JButton(">");
 		panel.add(buttonDerecha);
 
@@ -183,7 +189,8 @@ public class Vista {
 		//textFieldCodigo.setEditable(false);
 
 		splitPane = new JSplitPane();
-		splitPane.setResizeWeight(0.38);
+		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		splitPane.setResizeWeight(0.48);
 		splitPane.setDividerSize(10);
 
 
@@ -191,6 +198,12 @@ public class Vista {
 
 		scrollPane = new JScrollPane();
 		splitPane.setRightComponent(scrollPane);
+		
+		/*dimension = tabla.getPreferredSize();
+		scrollPane.setPreferredSize(new Dimension(
+		        dimension.width,
+		        tabla.getRowHeight()*filas)
+		);*/
 
 		panelFormulario = new JPanel();
 		splitPane.setLeftComponent(panelFormulario);
@@ -201,48 +214,41 @@ public class Vista {
 		panelFormulario.add(lblCodigo);
 
 		textFieldCodigo = new JTextField();
-		textFieldCodigo.setBounds(70, 27, 116, 22);
+		textFieldCodigo.setEnabled(false);
+		textFieldCodigo.setBounds(12, 59, 180, 22);
 		panelFormulario.add(textFieldCodigo);
 		textFieldCodigo.setColumns(10);
 
 		lblPelcula = new JLabel("Película");
-		lblPelcula.setBounds(12, 90, 56, 16);
+		lblPelcula.setBounds(230, 30, 56, 16);
 		panelFormulario.add(lblPelcula);
 
 		lblDirector = new JLabel("Director");
-		lblDirector.setBounds(12, 150, 56, 16);
+		lblDirector.setBounds(12, 94, 56, 16);
 		panelFormulario.add(lblDirector);
 
 		lblGenero = new JLabel("Género");
-		lblGenero.setBounds(12, 210, 56, 16);
+		lblGenero.setBounds(230, 94, 56, 16);
 		panelFormulario.add(lblGenero);
 
 		textFieldPelicula = new JTextField();
-		textFieldPelicula.setBounds(70, 87, 116, 22);
+		textFieldPelicula.setEnabled(false);
+		textFieldPelicula.setBounds(230, 59, 180, 22);
 		panelFormulario.add(textFieldPelicula);
 		textFieldPelicula.setColumns(10);
 
 		textFieldDirector = new JTextField();
-		textFieldDirector.setBounds(70, 147, 116, 22);
+		textFieldDirector.setEnabled(false);
+		textFieldDirector.setBounds(12, 126, 180, 22);
 		panelFormulario.add(textFieldDirector);
 		textFieldDirector.setColumns(10);
 
 		textFieldGenero = new JTextField();
-		textFieldGenero.setBounds(70, 207, 116, 22);
+		textFieldGenero.setEnabled(false);
+		textFieldGenero.setBounds(230, 123, 180, 22);
 		panelFormulario.add(textFieldGenero);
 		textFieldGenero.setColumns(10);
-
-		btnInsertar = new JButton("Insertar");
-		btnInsertar.setBounds(51, 287, 90, 25);
-		panelFormulario.add(btnInsertar);
-		btnInsertar.setEnabled(false);
 	}
-
-
-	/*public void redimensionarJSPlit() {
-
-		splitPane.setResizeWeight(1.50);
-	}*/
 
 
 	public JLabel getLblCodigo() {
@@ -282,5 +288,11 @@ public class Vista {
 
 	public JTextField getTextFieldGenero() {
 		return textFieldGenero;
+	}
+
+
+	public void redimensionarTabla() {
+		getFrame().setBounds(100, 100, 550, 750);
+		splitPane.setResizeWeight(0.08);		
 	}
 }

@@ -20,7 +20,7 @@ public class LeerCSV {
 	private static List<PeliculaDTO> listaPeliculas = new ArrayList<>();
 	private static String[] datosCsv;
 		
-	public String[] getDatosCsv() {
+	public static String[] getDatosCsv() {
 		return datosCsv;
 	}
 
@@ -56,6 +56,7 @@ public class LeerCSV {
 
 
 	}
+	
 	
 }
 

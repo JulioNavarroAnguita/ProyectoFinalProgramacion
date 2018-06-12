@@ -64,8 +64,8 @@ public class PeliculaDTO {
 
 	@Override
 	public String toString() {
-		return "PeliculaDTO [codigo=" + codigo + ", pelicula=" + pelicula + ", director=" + director + ", genero="
-				+ genero + "]";
+		return "|| Pelicula || \n codigo: " + codigo + "\n pelicula: " + pelicula + "\n director: " + director + "\n genero: "
+				+ genero;
 	}
 	
 	

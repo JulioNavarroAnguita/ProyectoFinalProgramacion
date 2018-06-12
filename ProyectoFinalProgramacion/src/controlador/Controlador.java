@@ -3,6 +3,7 @@ package controlador;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -29,20 +30,16 @@ public class Controlador implements ActionListener {
 
 	private Vista vista;
 	private LeerCSV leerFichero;
-	private List<PeliculaDTO> listaPePelicula;
+	private List<PeliculaDTO> listaPelicula;
 	private int contador = 0;
-	DefaultTableModel dtm;
-
-
-	public static void setData(Object[][] data) {
-		Controlador.data = data;
-	}
-	private String path;
-	PeliculaDAO manipulacion = new PeliculaDAOImp();
+	TablaModelo dtm;
 	JTable jTable;
 
 
+	private String path;
+	PeliculaDAO manipulacion = new PeliculaDAOImp();
 	String[] cabecera = {"codigo","pelicula","director","genero"};
+	//String[] cabecera = LeerCSV.getDatosCsv();
 	private static Object[][] data;
 
 
@@ -52,11 +49,10 @@ public class Controlador implements ActionListener {
 		this.vista = vista;
 		registrarComponentes();
 
-
-
-		if(manipulacion.comprobarExistenDatos()) {
+		/*if(manipulacion.comprobarExistenDatos()) {
 			completarArrays(manipulacion.listarPeliculas());
 			activarDesactivarBotones();
+			vista.redimensionarTabla();
 			pintarTabla();
 			//vista.redimensionarJSPlit();
 
@@ -66,9 +62,15 @@ public class Controlador implements ActionListener {
 			//System.out.println("Aqui entra");
 			manipulacion.crearTabla();
 			completarArrays(manipulacion.listarPeliculas());
-		}
+			pintarTabla();
+		}*/
+
 	}
 
+	public String[] getCabecera() {
+
+		return cabecera;
+	}
 
 	public Object[][] getData() {
 		return data;
@@ -102,8 +104,11 @@ public class Controlador implements ActionListener {
 				desplegarInformacion();
 			}
 
-			else
+			else {
 				lanzarEleccionFichero();
+				
+			}
+				
 		}
 
 		if(e.getSource().getClass() == JButton.class) {
@@ -133,11 +138,40 @@ public class Controlador implements ActionListener {
 			case "Borrar":
 				/*int row = jTable.getSelectionModel().getMinSelectionIndex();
 				((TablaModel) jTable.getModel()).deleteRow(row);*/
-				borrarPeliculaTabla();
 
+				int row = jTable.getSelectedRow();
+				if(row < 0) {
+					JOptionPane jpBorrar = new JOptionPane();
+					jpBorrar.showMessageDialog(null, "No ha seleccionado ninguna pelicula", "Error de borrado", JOptionPane.ERROR_MESSAGE);
+					//System.out.println("No ha seleccionado ninguna pelicula");//Poner un jOPTIONPANE
+					return;
+				}
+				dtm.borrarPelicula(row);
+
+				//((TablaModelo)jTable.getModel()).deleteRow(jTable.getSelectedRow()); 
 				break;
 			case "Insertar":
-				//System.out.println("pulsado " + textoBoton);
+				try {
+					PeliculaDTO peli = new PeliculaDTO(vista.getTextFieldCodigo().getText(),
+							vista.getTextFieldPelicula().getText(),
+							vista.getTextFieldDirector().getText(),
+							vista.getTextFieldGenero().getText());
+					dtm.addRow(peli);
+					actualizarTabla();
+					vista.getTextFieldCodigo().setText("");
+					vista.getTextFieldPelicula().setText("");
+					vista.getTextFieldDirector().setText("");
+					vista.getTextFieldGenero().setText("");
+					System.out.println(peli);
+					
+				} catch (ExceptionPelicula e1) {
+					JOptionPane jp = new JOptionPane();
+					jp.showMessageDialog(null, "Error al insertar el código.\n" + "-El código debe tener entre 6-12 caracteres\n"
+							+ "-No puede tener espacios en blanco\n"
+							+ "-No admite carácteres especiales",
+							"Código no válido", JOptionPane.ERROR_MESSAGE);
+					
+				}
 
 				break;
 
@@ -148,24 +182,40 @@ public class Controlador implements ActionListener {
 		}
 	}
 
+
+	private void actualizarTabla() {
+		completarArrays(manipulacion.listarPeliculas());
+		pintarTabla();
+		
+	}
+
 	private void lanzarEleccionFichero() {
 		JFileChooser jFileChooser = new JFileChooser(".");
 		int resultado = jFileChooser.showOpenDialog(vista.getFrame());
 		if (resultado == jFileChooser.APPROVE_OPTION) {
 			path = jFileChooser.getSelectedFile().getPath();
 			leerFichero = new LeerCSV(path);
-			listaPePelicula = leerFichero.getListaPeliculas();
+			listaPelicula = leerFichero.getListaPeliculas();
+
+
+			if(manipulacion.comprobarExistenDatos()) {
+				completarArrays(manipulacion.listarPeliculas());
+				vista.redimensionarTabla();
+			}else {
+				manipulacion.crearTabla();
+				completarArrays(manipulacion.listarPeliculas());
+			}
+
 			activarDesactivarBotones();
 			pintarTabla();
-
 
 		}
 
 	}
 
 	private void pintarTabla() {
-
-		dtm = new DefaultTableModel(data, cabecera);
+		//aqui falla algo la cabecera no se rellena
+		dtm = new TablaModelo(data, cabecera);
 		jTable = new JTable(dtm);
 		vista.getScrollPane().setViewportView(jTable);
 
@@ -179,6 +229,11 @@ public class Controlador implements ActionListener {
 		vista.getBtnInsertar().setEnabled(true);
 		vista.getMenuItemAcercaDe().setEnabled(false);
 		vista.getMenuItemCargarDatos().setEnabled(false);
+		vista.getTextFieldCodigo().setEnabled(true);
+		vista.getTextFieldPelicula().setEnabled(true);
+		vista.getTextFieldDirector().setEnabled(true);
+		vista.getTextFieldGenero().setEnabled(true);
+
 
 		//vista.getTextFieldCodigo().setEditable(true);
 
@@ -200,35 +255,7 @@ public class Controlador implements ActionListener {
 
 	}
 
-	public void borrarPeliculaTabla() {
-		try {
-			PeliculaDTO peliBorrar = new PeliculaDTO((String) jTable.getValueAt(jTable.getSelectedRow(), 0), 
-					(String)jTable.getValueAt(jTable.getSelectedRow(), 1),
-					(String)jTable.getValueAt(jTable.getSelectedRow(), 2),
-					(String)jTable.getValueAt(jTable.getSelectedRow(), 3));
-			dtm = (DefaultTableModel) jTable.getModel(); 
-			dtm.removeRow(jTable.getSelectedRow()); 
-			manipulacion.borrarPelicula(peliBorrar);
 
-		} catch (ExceptionPelicula e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-	}
-
-	/*public void actualizarPeliculaTabla() {
-		try {
-			
-			PeliculaDTO actualizarPeliculaTabla = new PeliculaDTO((String) jTable.setValueAt(, row, column), 
-					(String)jTable.getValueAt(jTable.getSelectedRow(), 1),
-					(String)jTable.getValueAt(jTable.getSelectedRow(), 2),
-					(String)jTable.getValueAt(jTable.getSelectedRow(), 3));
-			manipulacion.actualizarPellicula(actualizarPeliculaTabla);
-		} catch (ExceptionPelicula e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}*/
 
 	private void desplegarInformacion() {
 		JOptionPane jpJOptionPane = new JOptionPane();
@@ -242,10 +269,8 @@ public class Controlador implements ActionListener {
 
 	}
 
-	public String[] getCabecera() {
 
-		return cabecera;
-	}
+
 }
 
 

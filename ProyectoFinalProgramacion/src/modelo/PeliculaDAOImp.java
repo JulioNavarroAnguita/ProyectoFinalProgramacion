@@ -1,5 +1,7 @@
 package modelo;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,34 +10,19 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+
+import vista.Vista;
 
 
 public class PeliculaDAOImp implements PeliculaDAO {
 
 	private static Connection conexion = Conexion.getConexion();
-	
-	/*private String[] header = {"codigo", "pelicula", "director", "genero"};
-	private String[][] pintarTablas;
-	
-	
-	
-	
-	public String[] getHeader() {
-		return header;
-	}
-
-	public void setHeader(String[] header) {
-		this.header = header;
-	}
-
-	public String[][] getPintarTablas() {
-		return pintarTablas;
-	}
-
-	public void setPintarTablas(String[][] pintarTablas) {
-		this.pintarTablas = pintarTablas;
-	}*/
+	//private JProgressBar barraDeProgreso = new JProgressBar();
 
 	@Override
 	public List<PeliculaDTO> listarPeliculas() {
@@ -129,28 +116,30 @@ public class PeliculaDAOImp implements PeliculaDAO {
 		int peliculasInsertadas = 0; 
 
 		String sql = "INSERT INTO pelicula (codigo, pelicula, director, genero) VALUES (?,?,?,?);";
-
-
+		
 		try (PreparedStatement pst = conexion.prepareStatement(sql);){
+			
+		
 			int contador = 0;
 			JOptionPane jp = new JOptionPane();
-			jp.showMessageDialog(null, "Cargando datos espere...", "Cargando datos", JOptionPane.INFORMATION_MESSAGE);
+			jp.showMessageDialog(null, "Cargando datos espere...", 
+					"Cargando datos", JOptionPane.NO_OPTION);
+			//run(listaPeliculas);
+
 			for (PeliculaDTO peliculaDTO : listaPeliculas) {
-				/*pst.setString(1, peliculaDTO.getCodigo());
-				pst.setString(2, peliculaDTO.getPelicula());
-				pst.setString(3, peliculaDTO.getDirector());
-				pst.setString(4, peliculaDTO.getGenero());*/
-				contador++;
-			//	pst.executeUpdate();*/
+
+				contador++;	
+			
+				System.out.println(contador);
 				insertarPelicula(peliculaDTO);
-				
+
 				//System.out.println("Cargando datos: " + contador + "%");
 
 			}
-			jp.showMessageDialog(null, "Registros completados \n" + "Peliculas insertadas: " + contador, "Carga de datos", JOptionPane.INFORMATION_MESSAGE);
-			//System.out.println("Peliculas insertadas: " + contador);
-			
+	
 
+			jp.showMessageDialog(null, "Registros completados \n" + "Peliculas insertadas: " + listaPeliculas.size(), "Carga de datos", JOptionPane.INFORMATION_MESSAGE);
+			//System.out.println("Peliculas insertadas: " + contador);
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -250,9 +239,10 @@ public class PeliculaDAOImp implements PeliculaDAO {
 			st.executeUpdate(sql1);
 			//Al crear la tabla inserto los datos del csv
 			//Primero cargo los datos del fichero para rellenar la lista
-			LeerCSV.cargarDatosFichero("Ficheros/peliculas.csv"); 
+			//LeerCSV.cargarDatosFichero("Ficheros/peliculas.csv"); 
 			//Posterior inserto los datos
 			insertarPeliculas(LeerCSV.getListaPeliculas());
+			System.out.println(LeerCSV.getListaPeliculas());
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -260,23 +250,46 @@ public class PeliculaDAOImp implements PeliculaDAO {
 		}
 
 	}
-	
+
+
+	/*public void run(List<PeliculaDTO> lista) {
+		barraDeProgreso.setVisible(true);
+		barraDeProgreso.setMinimum(0);
+		barraDeProgreso.setMaximum(lista.size());
+		int contador = 0;
+		try
+		{
+			for (PeliculaDTO peliculaDTO : lista) {
+				contador++;
+				barraDeProgreso.setValue(contador);
+				barraDeProgreso.setVisible(true);
+			}
+			
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}*/
+
+
+
+
 
 	@Override
 	public boolean comprobarExistenDatos() {
 		int existenDatos = 0;
 		String sql = "SELECT COUNT(*) FROM pelicula;";
-		
+
 		try (Statement st = conexion.createStatement(); ResultSet rst = st.executeQuery(sql);){
 			if(rst.getInt(1) > 0)
 				existenDatos = 1;
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return existenDatos == 1;
 	}
-
 }
