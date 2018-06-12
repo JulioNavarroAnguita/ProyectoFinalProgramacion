@@ -10,15 +10,14 @@ import javax.swing.JProgressBar;
 
 public class ProgressBar {
 
-	static JFrame ventana;
-	static JButton boton;
+	static JFrame 		ventana;
+	static JButton 		boton;
 	static JProgressBar barra;
 	
 	public ProgressBar() {
 		ventana = new JFrame("JProgressBar");
 		boton = new JButton("Comenzar");
 		barra = new JProgressBar(0, 100);
-		
 		
 		boton.addActionListener(new Escucha());
 		ventana.setLayout(new FlowLayout());

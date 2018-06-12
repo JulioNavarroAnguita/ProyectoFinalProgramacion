@@ -252,28 +252,6 @@ public class PeliculaDAOImp implements PeliculaDAO {
 	}
 
 
-	/*public void run(List<PeliculaDTO> lista) {
-		barraDeProgreso.setVisible(true);
-		barraDeProgreso.setMinimum(0);
-		barraDeProgreso.setMaximum(lista.size());
-		int contador = 0;
-		try
-		{
-			for (PeliculaDTO peliculaDTO : lista) {
-				contador++;
-				barraDeProgreso.setValue(contador);
-				barraDeProgreso.setVisible(true);
-			}
-			
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-	}*/
-
-
-
 
 
 	@Override

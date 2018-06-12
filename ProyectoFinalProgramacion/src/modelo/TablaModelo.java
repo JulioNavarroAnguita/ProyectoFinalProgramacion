@@ -39,6 +39,13 @@ public class TablaModelo extends AbstractTableModel {
 		return cabecera.length;
 	}
 
+	
+	@Override
+	public String getColumnName(int column) {
+		// TODO Auto-generated method stub
+		return cabecera[column];
+	}
+
 	@Override
 	public Object getValueAt(int row, int col) {
 		// TODO Auto-generated method stub
@@ -68,7 +75,7 @@ public class TablaModelo extends AbstractTableModel {
 			PeliculaDTO peliculaUpdate = new PeliculaDTO(codigo, pelicula, director, genero);
 			manipulando.actualizarPellicula(peliculaUpdate);
 			log.crearLog(logger, primaryKey);
-			JOptionPane.showConfirmDialog(null, "Pelicula actualizada", "Actualizar película", JOptionPane.DEFAULT_OPTION);
+			JOptionPane.showMessageDialog(null, "Pelicula actualizada", "Actualizar película", JOptionPane.NO_OPTION);
 
 		} catch (ExceptionPelicula e) {
 			// TODO Auto-generated catch block
@@ -81,6 +88,7 @@ public class TablaModelo extends AbstractTableModel {
 		String logger = "INSERTADO";
 		String primaryKey = pelicula.getCodigo();
 		manipulando.insertarPelicula(pelicula);
+		JOptionPane.showMessageDialog(null, "Película insertada correctamente", "Insertar película", JOptionPane.NO_OPTION);
 		log.crearLog(logger, primaryKey);
 		
 	}

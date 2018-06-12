@@ -37,9 +37,9 @@ public class Controlador implements ActionListener {
 
 	private String path;
 	PeliculaDAO manipulacion = new PeliculaDAOImp();
-	String[] cabecera = {"codigo","pelicula","director","genero"};
+	static String[] cabecera = {"codigo","pelicula","director","genero"};
 	//String[] cabecera = LeerCSV.getDatosCsv();
-	private static Object[][] data;
+	static Object[][] data;
 
 
 	public Controlador(){}
@@ -47,22 +47,6 @@ public class Controlador implements ActionListener {
 	public Controlador(Vista vista) {
 		this.vista = vista;
 		registrarComponentes();
-
-		/*if(manipulacion.comprobarExistenDatos()) {
-			completarArrays(manipulacion.listarPeliculas());
-			activarDesactivarBotones();
-			vista.redimensionarTabla();
-			pintarTabla();
-			//vista.redimensionarJSPlit();
-
-
-		}
-		else {
-			//System.out.println("Aqui entra");
-			manipulacion.crearTabla();
-			completarArrays(manipulacion.listarPeliculas());
-			pintarTabla();
-		}*/
 
 	}
 
@@ -152,10 +136,13 @@ public class Controlador implements ActionListener {
 				break;
 			case "Insertar":
 				try {
-					PeliculaDTO peli = new PeliculaDTO(vista.getTextFieldCodigo().getText(),
-							vista.getTextFieldPelicula().getText(),
-							vista.getTextFieldDirector().getText(),
-							vista.getTextFieldGenero().getText());
+					String codigo   = vista.getTextFieldCodigo().getText();
+					String pelicula = vista.getTextFieldPelicula().getText();
+					String director = vista.getTextFieldDirector().getText();
+					String genero   = vista.getTextFieldGenero().getText();
+					
+					PeliculaDTO peli = new PeliculaDTO(codigo, pelicula, director, genero);
+					
 					dtm.addRow(peli);
 					actualizarTabla();
 					vista.getTextFieldCodigo().setText("");
@@ -214,7 +201,7 @@ public class Controlador implements ActionListener {
 	}
 
 	private void pintarTabla() {
-		//aqui falla algo la cabecera no se rellena
+		
 		dtm = new TablaModelo(data, cabecera);
 		jTable = new JTable(dtm);
 		vista.getScrollPane().setViewportView(jTable);
@@ -260,7 +247,7 @@ public class Controlador implements ActionListener {
 	private void desplegarInformacion() {
 		JOptionPane jpJOptionPane = new JOptionPane();
 		jpJOptionPane.showMessageDialog(vista.getFrame(), 
-				"Creado por Julio Navarro Anguita", "Informaciï¿½n Autor",
+				"Creado por Julio Navarro Anguita", "Información Autor",
 				JOptionPane.INFORMATION_MESSAGE);
 
 	}
