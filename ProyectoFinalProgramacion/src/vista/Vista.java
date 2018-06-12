@@ -57,6 +57,7 @@ public class Vista {
 	/**
 	 * Launch the application.
 	 */
+	
 
 	/**
 	 * Create the application.

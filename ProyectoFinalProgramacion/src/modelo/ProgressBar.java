@@ -19,6 +19,7 @@ public class ProgressBar {
 		boton = new JButton("Comenzar");
 		barra = new JProgressBar(0, 100);
 		
+		
 		boton.addActionListener(new Escucha());
 		ventana.setLayout(new FlowLayout());
 		ventana.add(barra);

@@ -18,6 +18,7 @@ public class ExceptionPelicula extends Exception {
 			//Logs.crearLog("ERROR BORRADO REGISTRO: codigo incorrecto " + codigo);
 		}
 		
+		
 		//System.out.println(mensaje);
 		return code;
 

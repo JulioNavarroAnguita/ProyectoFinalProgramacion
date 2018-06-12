@@ -22,6 +22,7 @@ import vista.Vista;
 public class PeliculaDAOImp implements PeliculaDAO {
 
 	private static Connection conexion = Conexion.getConexion();
+	
 
 	@Override
 	public List<PeliculaDTO> listarPeliculas() {

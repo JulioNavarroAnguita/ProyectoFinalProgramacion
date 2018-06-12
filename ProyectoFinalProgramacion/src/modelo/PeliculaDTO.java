@@ -7,7 +7,6 @@ public class PeliculaDTO {
 	private String director;
 	private String genero;
 	
-
 	public PeliculaDTO(String codigo, String pelicula, String director, String genero) throws ExceptionPelicula {
 		
 		if(ExceptionPelicula.comprobarCodigo(codigo)) {

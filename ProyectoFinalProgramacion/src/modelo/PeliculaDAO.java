@@ -16,5 +16,6 @@ public interface PeliculaDAO {
 	void crearTabla();
 	boolean comprobarExistenDatos();
 	
+	
 }
 

@@ -13,6 +13,7 @@ public class Conexion {
 
 	private static Connection conexion;
 
+	
 	public Conexion() {
 
 		Properties properties = new Properties();

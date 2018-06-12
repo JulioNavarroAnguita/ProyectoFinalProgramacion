@@ -35,7 +35,6 @@ public class Controlador implements ActionListener {
 	TablaModelo dtm;
 	JTable jTable;
 
-
 	private String path;
 	PeliculaDAO manipulacion = new PeliculaDAOImp();
 	String[] cabecera = {"codigo","pelicula","director","genero"};

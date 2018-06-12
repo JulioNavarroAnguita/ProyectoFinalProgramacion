@@ -17,6 +17,7 @@ public class Main1 {
 	public static void main(String[] args) {
 
 		/*JProgressBar jp = new JProgressBar();
+		
 		jp.setMinimum(0);
 		jp.setMaximum(100);
 		jp.setVisible(true);

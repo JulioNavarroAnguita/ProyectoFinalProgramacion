@@ -111,5 +111,4 @@ public class TablaModelo extends AbstractTableModel {
 		}
 	}
 
-
 }

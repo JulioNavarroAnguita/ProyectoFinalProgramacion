@@ -11,6 +11,7 @@ public class CreadorLogs {
 
 	private static File file = new File("Logs/Logs.txt");
 
+	
 	public void crearLog(String log, String primaryKey){
 
 		try(PrintWriter output = new PrintWriter(new BufferedOutputStream(new FileOutputStream(file,true)));) {

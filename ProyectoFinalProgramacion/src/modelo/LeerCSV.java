@@ -35,6 +35,7 @@ public class LeerCSV {
 	//metodo para cargar datos pasandole como argumento un fichero
 	public static void cargarDatosFichero(String fichero) {
 
+		
 		//Utilizando la clase externa CSVReader
 
 		//int contador = 0;
