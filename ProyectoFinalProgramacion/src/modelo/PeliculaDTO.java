@@ -33,31 +33,25 @@ public class PeliculaDTO {
 		return pelicula;
 	}
 
-
 	public void setPelicula(String pelicula) {
 		this.pelicula = pelicula;
 	}
-
 
 	public String getDirector() {
 		return director;
 	}
 
-
 	public void setDirector(String director) {
 		this.director = director;
 	}
-
 
 	public String getGenero() {
 		return genero;
 	}
 
-
 	public void setGenero(String genero) {
 		this.genero = genero;
 	}
-
 
 	@Override
 	public String toString() {

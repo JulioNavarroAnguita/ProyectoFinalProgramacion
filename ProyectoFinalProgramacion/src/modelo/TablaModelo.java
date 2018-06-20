@@ -88,7 +88,7 @@ public class TablaModelo extends AbstractTableModel {
 		String logger = "INSERTADO";
 		String primaryKey = pelicula.getCodigo();
 		manipulando.insertarPelicula(pelicula);
-		JOptionPane.showMessageDialog(null, "Película insertada correctamente", "Insertar película", JOptionPane.NO_OPTION);
+
 		log.crearLog(logger, primaryKey);
 		
 	}

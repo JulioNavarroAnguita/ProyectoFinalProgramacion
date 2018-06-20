@@ -32,18 +32,16 @@ public class Controlador implements ActionListener {
 	private LeerCSV leerFichero;
 	private List<PeliculaDTO> listaPelicula;
 	private int contador = 0;
+	private String path;
 	TablaModelo dtm;
 	JTable jTable;
-
-	private String path;
 	PeliculaDAO manipulacion = new PeliculaDAOImp();
 	static String[] cabecera = {"codigo","pelicula","director","genero"};
-	//String[] cabecera = LeerCSV.getDatosCsv();
 	static Object[][] data;
 
 
 	public Controlador(){}
-
+	
 	public Controlador(Vista vista) {
 		this.vista = vista;
 		registrarComponentes();
@@ -63,10 +61,6 @@ public class Controlador implements ActionListener {
 
 		vista.getBtnBorrar().addActionListener(this);
 		vista.getBtnInsertar().addActionListener(this);
-		vista.getBtnNewDerecha10().addActionListener(this);
-		vista.getButtonIzquierda().addActionListener(this);
-		vista.getButtonIzquierda10().addActionListener(this);
-		vista.getButtonDerecha().addActionListener(this);
 		vista.getMenuItemAcercaDe().addActionListener(this);
 		vista.getMenuItemCargarDatos().addActionListener(this);
 		vista.getMenuItemSalir().addActionListener(this);
@@ -97,44 +91,26 @@ public class Controlador implements ActionListener {
 		if(e.getSource().getClass() == JButton.class) {
 			JButton jButton = (JButton)e.getSource();
 			String textoBoton = jButton.getText();
+			
 			switch (textoBoton) {
-			case ">":
-				System.out.println("pulsado " + textoBoton);
-				//contador++;//
-				//colocarFormulario(contador);
-				break;
-			case ">>":
-				System.out.println("pulsado " + textoBoton);
-				//contador += 10;
-				//colocarFormulario(contador);
-				break;
-			case "<":
-				System.out.println("pulsado " + textoBoton);
-				//contador--;
-				//colocarFormulario(contador);
-				break;
-			case "<<":
-				System.out.println("pulsado " + textoBoton);
-				//contador -= 10;
-				//colocarFormulario(contador);
-				break;
+			
+				
 			case "Borrar":
-				/*int row = jTable.getSelectionModel().getMinSelectionIndex();
-				((TablaModel) jTable.getModel()).deleteRow(row);*/
 
 				int row = jTable.getSelectedRow();
 				if(row < 0) {
 					JOptionPane jpBorrar = new JOptionPane();
 					jpBorrar.showMessageDialog(null, "No ha seleccionado ninguna pelicula", "Error de borrado", JOptionPane.ERROR_MESSAGE);
-					//System.out.println("No ha seleccionado ninguna pelicula");//Poner un jOPTIONPANE
+					
 					return;
 				}
 				
 				dtm.borrarPelicula(row);
 
-				//((TablaModelo)jTable.getModel()).deleteRow(jTable.getSelectedRow()); 
 				break;
+				
 			case "Insertar":
+				
 				try {
 					String codigo   = vista.getTextFieldCodigo().getText();
 					String pelicula = vista.getTextFieldPelicula().getText();
@@ -142,7 +118,7 @@ public class Controlador implements ActionListener {
 					String genero   = vista.getTextFieldGenero().getText();
 					
 					PeliculaDTO peli = new PeliculaDTO(codigo, pelicula, director, genero);
-					
+	
 					dtm.addRow(peli);
 					actualizarTabla();
 					vista.getTextFieldCodigo().setText("");
@@ -187,7 +163,7 @@ public class Controlador implements ActionListener {
 
 			if(manipulacion.comprobarExistenDatos()) {
 				completarArrays(manipulacion.listarPeliculas());
-				vista.redimensionarTabla();
+				//vista.redimensionarTabla();
 			}else {
 				manipulacion.crearTabla();
 				completarArrays(manipulacion.listarPeliculas());
@@ -208,10 +184,7 @@ public class Controlador implements ActionListener {
 
 	}
 	private void activarDesactivarBotones() {
-		vista.getButtonIzquierda().setEnabled(true);
-		vista.getBtnNewDerecha10().setEnabled(true);
-		vista.getButtonDerecha().setEnabled(true);
-		vista.getButtonIzquierda10().setEnabled(true);
+		
 		vista.getBtnBorrar().setEnabled(true);
 		vista.getBtnInsertar().setEnabled(true);
 		vista.getMenuItemAcercaDe().setEnabled(false);

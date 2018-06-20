@@ -41,7 +41,6 @@ public class PeliculaDAOImp implements PeliculaDAO {
 				listaPeliculas.add(peliculaDTO);
 			}
 
-			//System.out.println("Total de peliculas: " + listaPeliculas.size());
 
 		} catch (SQLException | ExceptionPelicula e) {
 			// TODO Auto-generated catch block
@@ -68,7 +67,6 @@ public class PeliculaDAOImp implements PeliculaDAO {
 				peliculasBorradas += pst.executeUpdate();
 			}
 
-			//System.out.println("Peliculas borradas: " + peliculasBorradas);
 			if(peliculasBorradas > 0)
 				borrado = true;
 
@@ -139,7 +137,8 @@ public class PeliculaDAOImp implements PeliculaDAO {
 	
 
 			jp.showMessageDialog(null, "Registros completados \n" + "Peliculas insertadas: " + listaPeliculas.size(), "Carga de datos", JOptionPane.INFORMATION_MESSAGE);
-			//System.out.println("Peliculas insertadas: " + contador);
+			
+		//System.out.println("Peliculas insertadas: " + contador);
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -166,10 +165,10 @@ public class PeliculaDAOImp implements PeliculaDAO {
 			peliculaInsert++;
 			//System.out.println(peliculaInsert);
 			pst.executeUpdate();
-
+			JOptionPane.showMessageDialog(null, "Película insertada correctamente", "Insertar película", JOptionPane.NO_OPTION);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Errror al insertar una película con un código que ya existe", "Error", JOptionPane.ERROR_MESSAGE);
+			
 		}
 
 		if(peliculaInsert > 0)

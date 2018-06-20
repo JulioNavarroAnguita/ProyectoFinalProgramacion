@@ -31,10 +31,6 @@ public class Vista {
 	private JFrame frame;
 	private JButton btnInsertar;
 	private JButton btnBorrar;
-	private JButton buttonIzquierda10;
-	private JButton buttonIzquierda;
-	private JButton buttonDerecha;
-	private JButton btnNewDerecha10;
 	private JMenu mnFicheros;
 	private JMenu mnInfo;
 	private JMenuItem menuItemAcercaDe;
@@ -52,37 +48,13 @@ public class Vista {
 	private JTextField textFieldDirector;
 	private JTextField textFieldGenero;
 	PeliculaDAOImp pImp = new PeliculaDAOImp();
-	JProgressBar current;
-	int num = 0;
-	/**
-	 * Launch the application.
-	 */
 	
-
-	/**
-	 * Create the application.
-	 */
+	
 	public Vista() {
 		initialize();
 	}
 
 
-	public JButton getButtonIzquierda10() {
-		return buttonIzquierda10;
-	}
-
-
-	public JButton getButtonIzquierda() {
-		return buttonIzquierda;
-	}
-
-	public JButton getButtonDerecha() {
-		return buttonDerecha;
-	}
-
-	public JButton getBtnNewDerecha10() {
-		return btnNewDerecha10;
-	}
 
 
 	public JFrame getFrame() {
@@ -114,15 +86,10 @@ public class Vista {
 	}
 
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
-
-
 
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 450);
+		frame.setBounds(100, 100, 850, 850);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.setVisible(true);
@@ -150,12 +117,6 @@ public class Vista {
 		frame.getContentPane().add(panel, BorderLayout.SOUTH);
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-		buttonIzquierda10 = new JButton("<<");
-		panel.add(buttonIzquierda10);
-
-		buttonIzquierda = new JButton("<");
-		panel.add(buttonIzquierda);
-
 		btnBorrar = new JButton("Borrar");
 		panel.add(btnBorrar);
 
@@ -163,36 +124,20 @@ public class Vista {
 		panel.add(btnInsertar);
 		btnInsertar.setEnabled(false);
 
-		buttonDerecha = new JButton(">");
-		panel.add(buttonDerecha);
-
-		btnNewDerecha10 = new JButton(">>");
-		panel.add(btnNewDerecha10);
-
 		btnBorrar.setEnabled(false);
-		btnNewDerecha10.setEnabled(false);
-		buttonDerecha.setEnabled(false);
-		buttonIzquierda.setEnabled(false);
-		buttonIzquierda10.setEnabled(false);
 
-		//textFieldCodigo.setEditable(false);
 
 		splitPane = new JSplitPane();
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		splitPane.setResizeWeight(0.48);
+		splitPane.setResizeWeight(0.25);
 		splitPane.setDividerSize(10);
 
 
 		frame.getContentPane().add(splitPane, BorderLayout.CENTER);
 
 		scrollPane = new JScrollPane();
+		//scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
 		splitPane.setRightComponent(scrollPane);
-		
-		/*dimension = tabla.getPreferredSize();
-		scrollPane.setPreferredSize(new Dimension(
-		        dimension.width,
-		        tabla.getRowHeight()*filas)
-		);*/
 
 		panelFormulario = new JPanel();
 		splitPane.setLeftComponent(panelFormulario);
@@ -279,9 +224,4 @@ public class Vista {
 		return textFieldGenero;
 	}
 
-
-	public void redimensionarTabla() {
-		getFrame().setBounds(100, 100, 550, 750);
-		splitPane.setResizeWeight(0.08);		
-	}
 }
