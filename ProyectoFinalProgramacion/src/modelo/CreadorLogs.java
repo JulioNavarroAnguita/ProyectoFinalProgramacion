@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 public class CreadorLogs {
 
 	private static File file = new File("Logs/Logs.txt");
-
 	
 	public void crearLog(String log, String primaryKey){
 

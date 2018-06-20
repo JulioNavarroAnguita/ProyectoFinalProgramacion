@@ -8,8 +8,6 @@ import modelo.LeerCSV;
 import modelo.PeliculaDTO;
 import vista.Vista;
 
-
-
 public class Principal {
 
 	public static void main(String[] args) {

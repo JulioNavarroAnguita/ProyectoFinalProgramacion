@@ -40,7 +40,6 @@ public class Conexion {
 			new Conexion();
 			Runtime.getRuntime().addShutdownHook(new ShutdownHook());
 
-			
 		}
 
 		return conexion;

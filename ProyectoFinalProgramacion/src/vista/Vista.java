@@ -136,7 +136,6 @@ public class Vista {
 		frame.getContentPane().add(splitPane, BorderLayout.CENTER);
 
 		scrollPane = new JScrollPane();
-		//scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
 		splitPane.setRightComponent(scrollPane);
 
 		panelFormulario = new JPanel();

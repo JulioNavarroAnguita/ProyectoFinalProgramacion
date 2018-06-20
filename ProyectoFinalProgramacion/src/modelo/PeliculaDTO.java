@@ -14,6 +14,7 @@ public class PeliculaDTO {
 			this.pelicula = pelicula;
 			this.director = director;
 			this.genero = genero;
+			
 		}else
 			throw new ExceptionPelicula("El codigo introducido no es valido");
 		

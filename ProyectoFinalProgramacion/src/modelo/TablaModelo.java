@@ -94,7 +94,6 @@ public class TablaModelo extends AbstractTableModel {
 	}
 
 
-
 	public void borrarPelicula(int row) {
 
 		String logger = "BORRADO";

@@ -215,8 +215,6 @@ public class Controlador implements ActionListener {
 
 	}
 
-
-
 	private void desplegarInformacion() {
 		JOptionPane jpJOptionPane = new JOptionPane();
 		jpJOptionPane.showMessageDialog(vista.getFrame(), 

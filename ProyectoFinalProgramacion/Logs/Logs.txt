@@ -98,3 +98,5 @@
 2018-06-21T00:12:17.683     ACTUALIZADO                                 DiLyrvaEJ
 2018-06-21T00:13:08.024     ACTUALIZADO                                 Rg9VXaiREDQ
 2018-06-21T00:14:58.900     BORRADO                                     G1KifkVKB
+2018-06-21T00:19:41.361     BORRADO                                     Rg9VXaiREDQ
+2018-06-21T00:19:49.787     BORRADO                                     DiLyrvaEJ
